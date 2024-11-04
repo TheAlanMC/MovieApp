@@ -1,5 +1,11 @@
 package movies;
 
+import movies.customer.Customer;
+import movies.customer.Statement;
+import movies.movie.Movie;
+import movies.movie.MovieType;
+import movies.rental.Rental;
+
 public class Main {
     public static void main(String[] args) {
         Customer customer = new Customer("Test");

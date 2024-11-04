@@ -1,4 +1,6 @@
-package movies;
+package movies.customer;
+
+import movies.rental.Rental;
 
 /**
  * @author Chris Alan Apaza Aguilar

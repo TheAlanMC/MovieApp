@@ -1,4 +1,4 @@
-package movies;
+package movies.movie;
 
 /**
  * @author Chris Alan Apaza Aguilar
