@@ -1,16 +1,16 @@
-package movies.customer;
+package movies.rental;
 
-import movies.rental.Rental;
+import java.util.List;
 
 /**
  * @author Chris Alan Apaza Aguilar
  */
 
 public class Statement {
-    private final Customer customer;
+    private final List<Rental> rentals;
 
-    public Statement(Customer customer) {
-        this.customer = customer;
+    public Statement(List<Rental> rentals) {
+        this.rentals = rentals;
     }
 
     public String generate() {
@@ -20,20 +20,20 @@ public class Statement {
     }
 
     private double calculateTotalAmount() {
-        return customer.getRentals().stream()
+        return rentals.stream()
                 .mapToDouble(Rental::calculateAmount)
                 .sum();
     }
 
     private int calculateFrequentRenterPoints() {
-        return customer.getRentals().stream()
+        return rentals.stream()
                 .mapToInt(Rental::calculateFrequentRenterPoints)
                 .sum();
     }
 
     private String formatStatement(double totalAmount, int frequentRenterPoints) {
-        StringBuilder result = new StringBuilder("Rental Record for " + customer.getName() + "\n");
-        for (Rental rental : customer.getRentals()) {
+        StringBuilder result = new StringBuilder("Rental Record for ").append(rentals.get(0).getCustomer().getName()).append("\n");
+        for (Rental rental : rentals) {
             result.append("\t").append(rental.getMovie().getTitle()).append("\t")
                     .append(rental.calculateAmount()).append("\n");
         }

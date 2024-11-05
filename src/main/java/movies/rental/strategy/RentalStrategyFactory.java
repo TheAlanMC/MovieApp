@@ -12,6 +12,7 @@ public class RentalStrategyFactory {
             case NEW_RELEASE -> new NewReleaseRentalStrategy();
             case CHILDREN -> new ChildrenRentalStrategy();
             case REGULAR -> new RegularRentalStrategy();
+            default -> throw new IllegalArgumentException("Invalid movie type");
         };
     }
 }

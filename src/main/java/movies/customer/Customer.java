@@ -1,27 +1,17 @@
 package movies.customer;
 
-import movies.rental.Rental;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer {
-    private final String name;
-    private final List<Rental> rentals = new ArrayList<>();
+    @JsonProperty("id")
+    private Long id;
 
-    public Customer(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<Rental> getRentals() {
-        return rentals;
-    }
-
-    public void addRental(Rental rental) {
-        rentals.add(rental);
-    }
+    @JsonProperty("name")
+    private String name;
 }

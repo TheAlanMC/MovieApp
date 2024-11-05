@@ -1,17 +1,33 @@
 package movies;
 
 import movies.customer.Customer;
-import movies.customer.Statement;
+import movies.customer.repository.CustomerRepositoryImpl;
 import movies.movie.Movie;
-import movies.movie.MovieType;
+import movies.movie.repository.MovieRepositoryImpl;
 import movies.rental.Rental;
+import movies.rental.Statement;
+import movies.rental.repository.RentalRepositoryImpl;
+
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Customer customer = new Customer("Test");
-        customer.addRental(new Rental(new Movie("Zack Snyder's Justice League", MovieType.NEW_RELEASE), 5));
-        customer.addRental(new Rental(new Movie("Terminator", MovieType.REGULAR), 1));
-        customer.addRental(new Rental(new Movie("Soul", MovieType.CHILDREN), 3));
-        System.out.println(new Statement(customer).generate());
+        CustomerRepositoryImpl customerRepository = new CustomerRepositoryImpl();
+        MovieRepositoryImpl movieRepository = new MovieRepositoryImpl();
+        RentalRepositoryImpl rentalRepository = new RentalRepositoryImpl();
+
+        List<Customer> customers = customerRepository.getCustomers();
+        List<Movie> movies = movieRepository.getMovies();
+
+        rentalRepository.addRental(new Rental(customers.get(1), movies.get(0), 5));
+        rentalRepository.addRental(new Rental(customers.get(0), movies.get(1), 1));
+        rentalRepository.addRental(new Rental(customers.get(0), movies.get(2), 3));
+        rentalRepository.addRental(new Rental(customers.get(1), movies.get(0), 5));
+        rentalRepository.addRental(new Rental(customers.get(1), movies.get(1), 1));
+        rentalRepository.addRental(new Rental(customers.get(2), movies.get(2), 3));
+
+        System.out.println(new Statement(rentalRepository.getRentalsByCustomer(customers.get(0).getId())).generate());
+        System.out.println(new Statement(rentalRepository.getRentalsByCustomer(customers.get(1).getId())).generate());
+        System.out.println(new Statement(rentalRepository.getRentalsByCustomer(customers.get(2).getId())).generate());
     }
 }

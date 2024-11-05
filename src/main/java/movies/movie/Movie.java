@@ -1,19 +1,20 @@
 package movies.movie;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Movie {
-    private final String title;
-    private final MovieType type;
+    @JsonProperty("id")
+    private Long id;
 
-    public Movie(String title, MovieType type) {
-        this.title = title;
-        this.type = type;
-    }
+    @JsonProperty("title")
+    private String title;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public MovieType getType() {
-        return type;
-    }
+    @JsonProperty("type")
+    private MovieType type;
 }
