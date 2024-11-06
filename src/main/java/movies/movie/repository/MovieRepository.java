@@ -1,6 +1,6 @@
 package movies.movie.repository;
 
-import movies.movie.Movie;
+import movies.movie.entity.Movie;
 
 import java.util.List;
 

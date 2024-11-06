@@ -3,11 +3,10 @@ package movies.customer.repository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import movies.customer.Customer;
+import movies.customer.entity.Customer;
 import movies.customer.exception.CustomerException;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 return new ArrayList<>();
             }
             return objectMapper.readValue(new File(CUSTOMERS_FILE), new TypeReference<>() {});
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Error loading customers from JSON file", e);
             throw new CustomerException("Error loading customers from JSON file");
         }
@@ -63,7 +62,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             }
             currentCustomers.add(customer);
             objectMapper.writeValue(new File(CUSTOMERS_FILE), currentCustomers);
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Error saving customer to JSON file", e);
             throw new CustomerException("Error saving customer to JSON file");
         }

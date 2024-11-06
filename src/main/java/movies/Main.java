@@ -1,12 +1,12 @@
 package movies;
 
 import lombok.extern.slf4j.Slf4j;
-import movies.customer.Customer;
+import movies.customer.entity.Customer;
 import movies.customer.repository.CustomerRepositoryImpl;
-import movies.movie.Movie;
+import movies.movie.entity.Movie;
 import movies.movie.repository.MovieRepositoryImpl;
-import movies.rental.Rental;
-import movies.rental.Statement;
+import movies.rental.entity.Rental;
+import movies.rental.utils.Statement;
 import movies.rental.repository.RentalRepositoryImpl;
 import movies.rental.service.RentalService;
 
@@ -36,8 +36,7 @@ public class Main {
                 List<Rental> customerRentals = rentalRepository.getRentalsByCustomer(customer.getId());
                 if (!customerRentals.isEmpty()) {
                     log.info("Generating statement for customer: {}", customer.getName());
-                    Statement statement = new Statement(customer, customerRentals);
-                    System.out.println(statement.generate());
+                    System.out.println(Statement.generate(customer, customerRentals));
                 }
             }
         } catch (Exception e) {

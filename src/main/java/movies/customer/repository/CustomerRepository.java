@@ -1,6 +1,6 @@
 package movies.customer.repository;
 
-import movies.customer.Customer;
+import movies.customer.entity.Customer;
 
 import java.util.List;
 

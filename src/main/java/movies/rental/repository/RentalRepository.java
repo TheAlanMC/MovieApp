@@ -1,6 +1,6 @@
 package movies.rental.repository;
 
-import movies.rental.Rental;
+import movies.rental.entity.Rental;
 
 import java.util.List;
 

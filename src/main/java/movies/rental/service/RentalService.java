@@ -1,11 +1,11 @@
 package movies.rental.service;
 
 import lombok.extern.slf4j.Slf4j;
-import movies.customer.Customer;
+import movies.customer.entity.Customer;
 import movies.customer.repository.CustomerRepository;
-import movies.movie.Movie;
+import movies.movie.entity.Movie;
 import movies.movie.repository.MovieRepository;
-import movies.rental.Rental;
+import movies.rental.entity.Rental;
 import movies.rental.exception.RentalException;
 import movies.rental.repository.RentalRepository;
 

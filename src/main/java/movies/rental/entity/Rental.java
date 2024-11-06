@@ -1,9 +1,9 @@
-package movies.rental;
+package movies.rental.entity;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import movies.customer.Customer;
-import movies.movie.Movie;
+import movies.customer.entity.Customer;
+import movies.movie.entity.Movie;
 import movies.rental.exception.RentalException;
 import movies.rental.strategy.*;
 

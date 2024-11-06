@@ -1,6 +1,6 @@
 package movies.rental.strategy;
 
-import movies.movie.MovieType;
+import movies.movie.type.MovieType;
 
 /**
  * @author Chris Alan Apaza Aguilar

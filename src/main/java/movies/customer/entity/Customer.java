@@ -1,4 +1,4 @@
-package movies.movie;
+package movies.customer.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -8,13 +8,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Movie {
+public class Customer {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("title")
-    private String title;
-
-    @JsonProperty("type")
-    private MovieType type;
+    @JsonProperty("name")
+    private String name;
 }

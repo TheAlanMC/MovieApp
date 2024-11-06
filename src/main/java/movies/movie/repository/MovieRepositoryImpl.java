@@ -3,11 +3,10 @@ package movies.movie.repository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import movies.movie.Movie;
+import movies.movie.entity.Movie;
 import movies.movie.exception.MovieException;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class MovieRepositoryImpl implements MovieRepository {
                 return new ArrayList<>();
             }
             return objectMapper.readValue(new File(MOVIES_FILE), new TypeReference<>() {});
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Error loading movies from JSON file", e);
             throw new MovieException("Error loading movies from JSON file");
         }
@@ -63,7 +62,7 @@ public class MovieRepositoryImpl implements MovieRepository {
             }
             currentMovies.add(movie);
             objectMapper.writeValue(new File(MOVIES_FILE), currentMovies);
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Error saving movie to JSON file", e);
             throw new MovieException("Error saving movie to JSON file");
         }

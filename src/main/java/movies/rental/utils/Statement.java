@@ -1,6 +1,7 @@
-package movies.rental;
+package movies.rental.utils;
 
-import movies.customer.Customer;
+import movies.customer.entity.Customer;
+import movies.rental.entity.Rental;
 
 import java.util.List;
 
@@ -9,33 +10,25 @@ import java.util.List;
  */
 
 public class Statement {
-    private final List<Rental> rentals;
-    private final Customer customer;
-
-    public Statement(Customer customer, List<Rental> rentals) {
-        this.customer = customer;
-        this.rentals = rentals;
+    public static String generate(Customer customer, List<Rental> rentals) {
+        double totalAmount = calculateTotalAmount(rentals);
+        int frequentRenterPoints = calculateFrequentRenterPoints(rentals);
+        return formatStatement(customer, rentals, totalAmount, frequentRenterPoints);
     }
 
-    public String generate() {
-        double totalAmount = calculateTotalAmount();
-        int frequentRenterPoints = calculateFrequentRenterPoints();
-        return formatStatement(totalAmount, frequentRenterPoints);
-    }
-
-    private double calculateTotalAmount() {
+    private static double calculateTotalAmount(List<Rental> rentals) {
         return rentals.stream()
                 .mapToDouble(Rental::calculateAmount)
                 .sum();
     }
 
-    private int calculateFrequentRenterPoints() {
+    private static int calculateFrequentRenterPoints(List<Rental> rentals) {
         return rentals.stream()
                 .mapToInt(Rental::calculateFrequentRenterPoints)
                 .sum();
     }
 
-    private String formatStatement(double totalAmount, int frequentRenterPoints) {
+    private static String formatStatement(Customer customer, List<Rental> rentals, double totalAmount, int frequentRenterPoints) {
         StringBuilder result = new StringBuilder("Rental Record for ").append(customer.getName()).append("\n");
         for (Rental rental : rentals) {
             result.append("\t").append(rental.getMovie().getTitle()).append("\t")
