@@ -23,7 +23,9 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public List<Movie> getMovies() {
-        return loadMoviesFromJson();
+        List<Movie> currentMovies = loadMoviesFromJson();
+        movies.addAll(currentMovies);
+        return currentMovies;
     }
 
     @Override

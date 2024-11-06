@@ -23,7 +23,9 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public List<Customer> getCustomers() {
-        return loadCustomersFromJson();
+        List<Customer> currentCustomers = loadCustomersFromJson();
+        customers.addAll(currentCustomers);
+        return currentCustomers;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package movies.rental;
 
+import movies.customer.Customer;
+
 import java.util.List;
 
 /**
@@ -8,8 +10,10 @@ import java.util.List;
 
 public class Statement {
     private final List<Rental> rentals;
+    private final Customer customer;
 
-    public Statement(List<Rental> rentals) {
+    public Statement(Customer customer, List<Rental> rentals) {
+        this.customer = customer;
         this.rentals = rentals;
     }
 
@@ -32,7 +36,7 @@ public class Statement {
     }
 
     private String formatStatement(double totalAmount, int frequentRenterPoints) {
-        StringBuilder result = new StringBuilder("Rental Record for ").append(rentals.get(0).getCustomer().getName()).append("\n");
+        StringBuilder result = new StringBuilder("Rental Record for ").append(customer.getName()).append("\n");
         for (Rental rental : rentals) {
             result.append("\t").append(rental.getMovie().getTitle()).append("\t")
                     .append(rental.calculateAmount()).append("\n");
