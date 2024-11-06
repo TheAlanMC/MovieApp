@@ -8,6 +8,7 @@ public class RegularRentalStrategy implements RentalStrategy {
     private static final double BASE_AMOUNT = 2;
     private static final int BASE_DAYS = 2;
     private static final double EXTRA_AMOUNT = 1.5;
+    private static final int FREQUENT_RENTER_POINTS = 0;
 
     @Override
     public double calculateAmount(int daysRented) {
@@ -20,6 +21,6 @@ public class RegularRentalStrategy implements RentalStrategy {
 
     @Override
     public int calculateFrequentRenterPoints(int daysRented) {
-        return 0; // no bonus for regular rental
+        return FREQUENT_RENTER_POINTS;
     }
 }

@@ -3,7 +3,8 @@ package movies.movie.service;
 import lombok.extern.slf4j.Slf4j;
 import movies.movie.entity.Movie;
 import movies.movie.repository.MovieRepository;
-import movies.movie.type.MovieType;
+import movies.movie.repository.MovieRepositoryImpl;
+import movies.common.type.MovieType;
 
 import java.util.List;
 
@@ -13,10 +14,19 @@ import java.util.List;
 
 @Slf4j
 public class MovieService {
+    private static MovieService instance;
+
     private final MovieRepository movieRepository;
 
-    public MovieService(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
+    private MovieService() {
+        this.movieRepository = MovieRepositoryImpl.getInstance();
+    }
+
+    public static MovieService getInstance() {
+        if (instance == null) {
+            instance = new MovieService();
+        }
+        return instance;
     }
 
     public void addMovie(Long id, String title, MovieType type) {

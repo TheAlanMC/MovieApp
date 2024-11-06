@@ -8,6 +8,7 @@ public class ChildrenRentalStrategy implements RentalStrategy {
     private static final double BASE_AMOUNT = 1.5;
     private static final int BASE_DAYS = 3;
     private static final double EXTRA_AMOUNT = 1.5;
+    private static final int FREQUENT_RENTER_POINTS = 1;
 
     @Override
     public double calculateAmount(int daysRented) {
@@ -20,6 +21,6 @@ public class ChildrenRentalStrategy implements RentalStrategy {
 
     @Override
     public int calculateFrequentRenterPoints(int daysRented) {
-        return 1; // add bonus for children rental
+        return FREQUENT_RENTER_POINTS;
     }
 }

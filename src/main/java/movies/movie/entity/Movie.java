@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import movies.movie.type.MovieType;
+import movies.common.type.MovieType;
 
 @Getter
 @AllArgsConstructor

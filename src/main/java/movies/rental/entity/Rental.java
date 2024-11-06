@@ -1,28 +1,42 @@
 package movies.rental.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import movies.customer.entity.Customer;
-import movies.movie.entity.Movie;
-import movies.rental.exception.RentalException;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import movies.common.type.MovieType;
 import movies.rental.strategy.*;
 
 @Getter
-@Slf4j
+@Setter
+@NoArgsConstructor
 public class Rental {
-    private final Customer customer;
-    private final Movie movie;
-    private final int daysRented;
-    private final RentalStrategy strategy;
+    @JsonProperty("id")
+    private Long id;
 
-    public Rental(Customer customer, Movie movie, int daysRented) {
-        if (daysRented < 0) {
-            throw new RentalException("Days rented must not be negative");
-        }
-        this.customer = customer;
-        this.movie = movie;
+    @JsonProperty("customer_id")
+    private Long customerId;
+
+    @JsonProperty("movie_id")
+    private Long movieId;
+
+    @JsonProperty("rental_movie_type")
+    private MovieType rentalMovieType;
+
+    @JsonProperty("days_rented")
+    private int daysRented;
+
+    @JsonIgnore
+    private RentalStrategy strategy;
+
+    public Rental(Long id, Long customerId, Long movieId, MovieType rentalMovieType, int daysRented) {
+        this.id = id;
+        this.customerId = customerId;
+        this.movieId = movieId;
+        this.rentalMovieType = rentalMovieType;
         this.daysRented = daysRented;
-        this.strategy = RentalStrategyFactory.createRentalStrategy(movie.getType());
+        this.strategy = RentalStrategyFactory.createRentalStrategy(rentalMovieType);
     }
 
     public double calculateAmount() {

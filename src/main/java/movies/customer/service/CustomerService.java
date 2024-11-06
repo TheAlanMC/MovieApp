@@ -3,6 +3,7 @@ package movies.customer.service;
 import lombok.extern.slf4j.Slf4j;
 import movies.customer.entity.Customer;
 import movies.customer.repository.CustomerRepository;
+import movies.customer.repository.CustomerRepositoryImpl;
 
 import java.util.List;
 
@@ -12,10 +13,19 @@ import java.util.List;
 
 @Slf4j
 public class CustomerService {
+    private static CustomerService instance;
+
     private final CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    private CustomerService() {
+        this.customerRepository = CustomerRepositoryImpl.getInstance();
+    }
+
+    public static CustomerService getInstance() {
+        if (instance == null) {
+            instance = new CustomerService();
+        }
+        return instance;
     }
 
     public void addCustomer(Long id, String name) {

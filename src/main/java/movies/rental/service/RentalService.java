@@ -3,11 +3,18 @@ package movies.rental.service;
 import lombok.extern.slf4j.Slf4j;
 import movies.customer.entity.Customer;
 import movies.customer.repository.CustomerRepository;
+import movies.customer.repository.CustomerRepositoryImpl;
 import movies.movie.entity.Movie;
 import movies.movie.repository.MovieRepository;
+import movies.movie.repository.MovieRepositoryImpl;
 import movies.rental.entity.Rental;
 import movies.rental.exception.RentalException;
 import movies.rental.repository.RentalRepository;
+import movies.rental.repository.RentalRepositoryImpl;
+import movies.rental.strategy.RentalStrategy;
+import movies.rental.strategy.RentalStrategyFactory;
+
+import java.util.List;
 
 /**
  * @author Chris Alan Apaza Aguilar
@@ -15,17 +22,31 @@ import movies.rental.repository.RentalRepository;
 
 @Slf4j
 public class RentalService {
+    private static RentalService instance;
+
     private final CustomerRepository customerRepository;
     private final MovieRepository movieRepository;
     private final RentalRepository rentalRepository;
 
-    public RentalService(CustomerRepository customerRepository, MovieRepository movieRepository, RentalRepository rentalRepository) {
-        this.customerRepository = customerRepository;
-        this.movieRepository = movieRepository;
-        this.rentalRepository = rentalRepository;
+    private RentalService() {
+        this.customerRepository = CustomerRepositoryImpl.getInstance();
+        this.movieRepository = MovieRepositoryImpl.getInstance();
+        this.rentalRepository = RentalRepositoryImpl.getInstance();
     }
 
-    public void addRentalByCustomerIdAndMovieId(Long customerId, Long movieId, int daysRented) {
+    public static RentalService getInstance() {
+        if (instance == null) {
+            instance = new RentalService();
+        }
+        return instance;
+    }
+
+    public void addRentalByCustomerIdAndMovieId(Long id, Long customerId, Long movieId, int daysRented) {
+        if (daysRented <= 0) {
+            log.error("Days rented must be greater than 0");
+            throw new RentalException("Days rented must be greater than 0");
+        }
+
         Customer customer = customerRepository.getCustomerById(customerId);
         if (customer == null) {
             log.error("Customer ID {} not found", customerId);
@@ -38,9 +59,14 @@ public class RentalService {
             throw new RentalException("Movie not found: ID " + movieId);
         }
 
-        Rental rental = new Rental(customer, movie, daysRented);
+        Rental rental = new Rental(id, customer.getId(), movie.getId(), movie.getType(), daysRented);
         rentalRepository.addRental(rental);
-        log.info("Rental added successfully: customerId={}, movieId={}, daysRented={}", customerId, movieId, daysRented);
+        log.info("Rental added successfully: rentalId={}, customerId={}, movieId={}, daysRented={}",
+                rental.getId(), rental.getCustomerId(), rental.getMovieId(), rental.getDaysRented());
+    }
+
+    public List<Rental> getRentalsByCustomerId(Long customerId) {
+        log.info("Getting rental by customer ID: customerId={}", customerId);
+        return rentalRepository.getRentalsByCustomerId(customerId);
     }
 }
-

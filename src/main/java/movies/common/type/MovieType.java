@@ -1,4 +1,4 @@
-package movies.movie.type;
+package movies.common.type;
 
 /**
  * @author Chris Alan Apaza Aguilar
