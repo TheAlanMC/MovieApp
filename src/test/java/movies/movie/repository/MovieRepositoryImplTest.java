@@ -48,7 +48,6 @@ class MovieRepositoryImplTest {
         assertEquals(1L, movies.get(0).getId());
         assertEquals("Movie 1", movies.get(0).getTitle());
         assertEquals(MovieType.REGULAR, movies.get(0).getType());
-
     }
 
     @Test
@@ -75,7 +74,7 @@ class MovieRepositoryImplTest {
     }
 
     @Test
-    void getMovieByIdShouldThrowMovieException() {
+    void getMovieByIdShouldThrowMovieExceptionWhenMovieNotFound() {
         // Act
         MovieException movieException = assertThrows(MovieException.class, () -> movieRepository.getMovieById(2L));
         // Assert

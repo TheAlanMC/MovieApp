@@ -74,10 +74,11 @@ class MovieServiceTest {
     }
 
     @Test
-    void getMovieByIdShouldThrowMovieException() {
+    void getMovieByIdShouldThrowMovieExceptionWhenMovieIsNull() {
         // Arrange
         when(movieRepository.getMovieById(1L)).thenReturn(null);
         // Act and Assert
-        assertThrows(MovieException.class, () -> movieService.getMovieById(1L));
+        MovieException movieException = assertThrows(MovieException.class, () -> movieService.getMovieById(1L));
+        assertEquals("Movie not found", movieException.getMessage());
     }
 }

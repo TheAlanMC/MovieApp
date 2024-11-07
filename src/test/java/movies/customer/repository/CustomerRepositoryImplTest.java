@@ -70,7 +70,7 @@ class CustomerRepositoryImplTest {
     }
 
     @Test
-    void getCustomerByIdShouldThrowCustomerException() {
+    void getCustomerByIdShouldThrowCustomerExceptionWhenCustomerNotFound() {
         // Act
         CustomerException customerException = assertThrows(CustomerException.class, () -> customerRepository.getCustomerById(2L));
         // Assert

@@ -71,10 +71,11 @@ class CustomerServiceTest {
     }
 
     @Test
-    void getCustomerByIdShouldThrowCustomerException() {
+    void getCustomerByIdShouldThrowCustomerExceptionWhenCustomerIsNull() {
         // Arrange
         when(customerRepository.getCustomerById(1L)).thenReturn(null);
         // Act and Assert
-        assertThrows(CustomerException.class, () -> customerService.getCustomerById(1L));
+        CustomerException customerException = assertThrows(CustomerException.class, () -> customerService.getCustomerById(1L));
+        assertEquals("Customer not found", customerException.getMessage());
     }
 }

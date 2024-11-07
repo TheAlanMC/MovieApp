@@ -32,11 +32,28 @@ public class RentalService {
         this.rentalRepository = RentalRepositoryImpl.getInstance();
     }
 
+    private RentalService(CustomerRepository customerRepository, MovieRepository movieRepository, RentalRepository rentalRepository) {
+        this.customerRepository = customerRepository;
+        this.movieRepository = movieRepository;
+        this.rentalRepository = rentalRepository;
+    }
+
     public static RentalService getInstance() {
         if (instance == null) {
             instance = new RentalService();
         }
         return instance;
+    }
+
+    public static RentalService getInstance(CustomerRepository customerRepository, MovieRepository movieRepository, RentalRepository rentalRepository) {
+        if (instance == null) {
+            instance = new RentalService(customerRepository, movieRepository, rentalRepository);
+        }
+        return instance;
+    }
+
+    public static void resetInstance() {
+        instance = null;
     }
 
     public void addRentalByCustomerIdAndMovieId(Long id, Long customerId, Long movieId, int daysRented) {

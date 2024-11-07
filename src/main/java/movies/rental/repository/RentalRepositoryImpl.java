@@ -14,22 +14,33 @@ import java.util.stream.Collectors;
 
 public class RentalRepositoryImpl implements RentalRepository {
     private static RentalRepositoryImpl instance;
-
     private static final String RENTALS_FILE = "src/main/resources/rentals.json";
+
     private final List<Rental> rentals;
     private final JsonRepositoryImpl<Rental> jsonRepository;
 
-    private RentalRepositoryImpl() {
-        this.jsonRepository = new JsonRepositoryImpl<>(RENTALS_FILE, new TypeReference<>() {});
-        rentals = jsonRepository.loadAll();
-        rentals.forEach(it -> it.setStrategy(RentalStrategyFactory.createRentalStrategy(it.getRentalMovieType())));
+    private RentalRepositoryImpl(JsonRepositoryImpl<Rental> jsonRepository) {
+        this.jsonRepository = jsonRepository;
+        this.rentals = jsonRepository.loadAll();
+        this.rentals.forEach(it -> it.setStrategy(RentalStrategyFactory.createRentalStrategy(it.getRentalMovieType())));
     }
 
     public static RentalRepositoryImpl getInstance() {
         if (instance == null) {
-            instance = new RentalRepositoryImpl();
+            instance = new RentalRepositoryImpl(new JsonRepositoryImpl<>(RENTALS_FILE, new TypeReference<>() {}));
         }
         return instance;
+    }
+
+    public static RentalRepositoryImpl getInstance(JsonRepositoryImpl<Rental> jsonRepository) {
+        if (instance == null) {
+            instance = new RentalRepositoryImpl(jsonRepository);
+        }
+        return instance;
+    }
+
+    public static void resetInstance() {
+        instance = null;
     }
 
     @Override
