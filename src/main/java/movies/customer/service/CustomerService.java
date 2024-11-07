@@ -2,6 +2,7 @@ package movies.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
 import movies.customer.entity.Customer;
+import movies.customer.exception.CustomerException;
 import movies.customer.repository.CustomerRepository;
 import movies.customer.repository.CustomerRepositoryImpl;
 
@@ -21,11 +22,31 @@ public class CustomerService {
         this.customerRepository = CustomerRepositoryImpl.getInstance();
     }
 
+    private CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
     public static CustomerService getInstance() {
         if (instance == null) {
             instance = new CustomerService();
         }
         return instance;
+    }
+
+    public static CustomerService getInstance(CustomerRepository customerRepository) {
+        if (instance == null) {
+            instance = new CustomerService(customerRepository);
+        }
+        return instance;
+    }
+
+    public static void resetInstance() {
+        instance = null;
+    }
+
+    public List<Customer> getCustomers() {
+        log.info("Getting all movies");
+        return customerRepository.getCustomers();
     }
 
     public void addCustomer(Long id, String name) {
@@ -39,12 +60,8 @@ public class CustomerService {
         Customer customer = customerRepository.getCustomerById(id);
         if (customer == null) {
             log.error("Customer ID {} not found", id);
+            throw new CustomerException("Customer not found");
         }
         return customer;
-    }
-
-    public List<Customer> getCustomers() {
-        log.info("Getting all movies");
-        return customerRepository.getCustomers();
     }
 }

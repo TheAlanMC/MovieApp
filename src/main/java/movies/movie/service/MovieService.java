@@ -1,9 +1,10 @@
 package movies.movie.service;
 
 import lombok.extern.slf4j.Slf4j;
-import movies.movie.entity.Movie;
 import movies.movie.repository.MovieRepository;
 import movies.movie.repository.MovieRepositoryImpl;
+import movies.movie.entity.Movie;
+import movies.movie.exception.MovieException;
 import movies.common.type.MovieType;
 
 import java.util.List;
@@ -22,11 +23,26 @@ public class MovieService {
         this.movieRepository = MovieRepositoryImpl.getInstance();
     }
 
+    private MovieService(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
+    }
+
     public static MovieService getInstance() {
         if (instance == null) {
             instance = new MovieService();
         }
         return instance;
+    }
+
+    public static MovieService getInstance(MovieRepository movieRepository) {
+        if (instance == null) {
+            instance = new MovieService(movieRepository);
+        }
+        return instance;
+    }
+
+    public static void resetInstance() {
+        instance = null;
     }
 
     public void addMovie(Long id, String title, MovieType type) {
@@ -40,6 +56,7 @@ public class MovieService {
         Movie movie = movieRepository.getMovieById(id);
         if (movie == null) {
             log.error("Movie ID {} not found", id);
+            throw new MovieException("Movie not found");
         }
         return movie;
     }

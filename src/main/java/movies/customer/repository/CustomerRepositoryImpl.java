@@ -15,21 +15,32 @@ import java.util.List;
 @Slf4j
 public class CustomerRepositoryImpl implements CustomerRepository {
     private static CustomerRepositoryImpl instance;
-
     private static final String CUSTOMERS_FILE = "src/main/resources/customers.json";
+
     private final List<Customer> customers;
     private final JsonRepositoryImpl<Customer> jsonRepository;
 
-    private CustomerRepositoryImpl() {
-        this.jsonRepository = new JsonRepositoryImpl<>(CUSTOMERS_FILE, new TypeReference<>() {});
-        customers = jsonRepository.loadAll();
+    private CustomerRepositoryImpl(JsonRepositoryImpl<Customer> jsonRepository) {
+        this.jsonRepository = jsonRepository;
+        this.customers = jsonRepository.loadAll();
     }
 
     public static CustomerRepositoryImpl getInstance() {
         if (instance == null) {
-            instance = new CustomerRepositoryImpl();
+            instance = new CustomerRepositoryImpl(new JsonRepositoryImpl<>(CUSTOMERS_FILE, new TypeReference<>() {}));
         }
         return instance;
+    }
+
+    public static CustomerRepositoryImpl getInstance(JsonRepositoryImpl<Customer> jsonRepository) {
+        if (instance == null) {
+            instance = new CustomerRepositoryImpl(jsonRepository);
+        }
+        return instance;
+    }
+
+    public static void resetInstance() {
+        instance = null;
     }
 
     @Override

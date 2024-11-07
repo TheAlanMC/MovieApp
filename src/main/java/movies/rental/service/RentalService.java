@@ -11,8 +11,6 @@ import movies.rental.entity.Rental;
 import movies.rental.exception.RentalException;
 import movies.rental.repository.RentalRepository;
 import movies.rental.repository.RentalRepositoryImpl;
-import movies.rental.strategy.RentalStrategy;
-import movies.rental.strategy.RentalStrategyFactory;
 
 import java.util.List;
 

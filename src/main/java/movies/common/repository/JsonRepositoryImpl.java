@@ -25,6 +25,7 @@ public class JsonRepositoryImpl<T> implements JsonRepository<T> {
         this.objectMapper = new ObjectMapper();
     }
 
+    @Override
     public List<T> loadAll() {
         try {
             File file = new File(filePath);
@@ -38,6 +39,7 @@ public class JsonRepositoryImpl<T> implements JsonRepository<T> {
         }
     }
 
+    @Override
     public void saveAll(List<T> entities) {
         try {
             objectMapper.writeValue(new File(filePath), entities);

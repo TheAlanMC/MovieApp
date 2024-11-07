@@ -3,7 +3,6 @@ package movies.rental.repository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import movies.common.repository.JsonRepositoryImpl;
 import movies.rental.entity.Rental;
-import movies.rental.strategy.RentalStrategy;
 import movies.rental.strategy.RentalStrategyFactory;
 
 import java.util.List;

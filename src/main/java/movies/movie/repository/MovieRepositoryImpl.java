@@ -15,21 +15,32 @@ import java.util.List;
 @Slf4j
 public class MovieRepositoryImpl implements MovieRepository {
     private static MovieRepositoryImpl instance;
-
     private static final String MOVIES_FILE = "src/main/resources/movies.json";
+
     private final List<Movie> movies;
     private final JsonRepositoryImpl<Movie> jsonRepository;
 
-    private MovieRepositoryImpl() {
-        this.jsonRepository = new JsonRepositoryImpl<>(MOVIES_FILE, new TypeReference<>() {});
-        movies = jsonRepository.loadAll();
+    private MovieRepositoryImpl(JsonRepositoryImpl<Movie> jsonRepository) {
+        this.jsonRepository = jsonRepository;
+        this.movies = jsonRepository.loadAll();
     }
 
     public static MovieRepositoryImpl getInstance() {
         if (instance == null) {
-            instance = new MovieRepositoryImpl();
+            instance = new MovieRepositoryImpl(new JsonRepositoryImpl<>(MOVIES_FILE, new TypeReference<>() {}));
         }
         return instance;
+    }
+
+    public static MovieRepositoryImpl getInstance(JsonRepositoryImpl<Movie> jsonRepository) {
+        if (instance == null) {
+            instance = new MovieRepositoryImpl(jsonRepository);
+        }
+        return instance;
+    }
+
+    public static void resetInstance() {
+        instance = null;
     }
 
     @Override
