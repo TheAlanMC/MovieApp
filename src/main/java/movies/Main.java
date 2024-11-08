@@ -1,8 +1,11 @@
 package movies;
 
 import lombok.extern.slf4j.Slf4j;
+import movies.common.type.MovieType;
 import movies.customer.entity.Customer;
 import movies.customer.service.CustomerService;
+import movies.movie.entity.Movie;
+import movies.movie.service.MovieService;
 import movies.rental.entity.Rental;
 import movies.rental.reports.Statement;
 import movies.rental.service.RentalService;
@@ -12,28 +15,23 @@ import java.util.List;
 @Slf4j
 public class Main {
     public static void main(String[] args) {
-        // Just for testing purposes
-        CustomerService customerService = CustomerService.getInstance();
-        RentalService rentalService = RentalService.getInstance();
 
-        List<Customer> customers = customerService.getCustomers();
-
+        // Just for demonstration purposes
         try {
-            rentalService.addRentalByCustomerIdAndMovieId(1L,1L, 1L, 5);
-            rentalService.addRentalByCustomerIdAndMovieId(2L,1L, 2L, 1);
-            rentalService.addRentalByCustomerIdAndMovieId(3L,1L, 3L, 3);
-            rentalService.addRentalByCustomerIdAndMovieId(4L,2L, 1L, 5);
-            rentalService.addRentalByCustomerIdAndMovieId(5L,2L, 2L, 1);
-            rentalService.addRentalByCustomerIdAndMovieId(6L,3L, 3L, 3);
+            // Create services
+            CustomerService customerService = CustomerService.getInstance();
+            MovieService movieService = MovieService.getInstance();
+            RentalService rentalService = RentalService.getInstance();
 
-            // Generate statements for customers
-            for (Customer customer : customers) {
-                List<Rental> customerRentals = rentalService.getRentalsByCustomerId(customer.getId());
-                if (!customerRentals.isEmpty()) {
-                    log.info("Generating statement for customer: {}", customer.getName());
-                    System.out.println(new Statement(customer, customerRentals).generate());
-                }
-            }
+            // Add a customer, a movie and a rental
+            Customer customer = customerService.addCustomer("John Doe");
+            Movie movie = movieService.addMovie("Dune", MovieType.NEW_RELEASE);
+            rentalService.addRentalByCustomerIdAndMovieId(customer.getId(), movie.getId(), 3);
+
+            // Generate statement
+            List<Rental> customerRentals = rentalService.getRentalsByCustomerId(customer.getId());
+            log.info("Generating statement for customer: {}", customer.getName());
+            System.out.println(new Statement(customer, customerRentals).generate());
         } catch (Exception e) {
             log.error("An error occurred", e);
         }

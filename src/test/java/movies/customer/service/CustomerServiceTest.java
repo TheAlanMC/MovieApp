@@ -52,11 +52,14 @@ class CustomerServiceTest {
     @Test
     void addCustomerShouldAddCustomer() {
         // Arrange
-        doNothing().when(customerRepository).addCustomer(any(Customer.class));
+        Customer customer = new Customer(2L, "Alan");
+        when(customerRepository.addCustomer(any(Customer.class))).thenReturn(customer);
         // Act
-        customerService.addCustomer(2L, "Alan");
+        Customer addedCustomer = customerService.addCustomer("Alan");
         // Assert
-        verify(customerRepository, times(1)).addCustomer(any(Customer.class));
+        assertEquals(2, addedCustomer.getId());
+        assertEquals(2L, addedCustomer.getId());
+        assertEquals("Alan", addedCustomer.getName());
     }
 
     @Test

@@ -62,14 +62,14 @@ class RentalRepositoryImplTest {
         // Arrange
         Rental rental = new Rental(3L, 3L, 3L, MovieType.NEW_RELEASE, 3);
         // Act
-        rentalRepository.addRental(rental);
+        Rental addedRental = rentalRepository.addRental(rental);
         // Assert
         assertEquals(3, mockRentals.size());
-        assertEquals(3L, mockRentals.get(2).getId());
-        assertEquals(3L, mockRentals.get(2).getCustomerId());
-        assertEquals(3L, mockRentals.get(2).getMovieId());
-        assertEquals(MovieType.NEW_RELEASE, mockRentals.get(2).getRentalMovieType());
-        assertEquals(3, mockRentals.get(2).getDaysRented());
+        assertEquals(3L, addedRental.getId());
+        assertEquals(3L, addedRental.getCustomerId());
+        assertEquals(3L, addedRental.getMovieId());
+        assertEquals(MovieType.NEW_RELEASE, addedRental.getRentalMovieType());
+        assertEquals(3, addedRental.getDaysRented());
     }
 
     @Test

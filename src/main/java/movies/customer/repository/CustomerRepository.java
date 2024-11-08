@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface CustomerRepository {
     List<Customer> getCustomers();
-    void addCustomer(Customer customer);
+    Customer addCustomer(Customer customer);
     Customer getCustomerById(Long id);
 }

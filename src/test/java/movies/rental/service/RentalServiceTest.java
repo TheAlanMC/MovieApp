@@ -48,12 +48,18 @@ class RentalServiceTest {
         // Arrange
         Customer mockCustomer = new Customer(1L, "Chris");
         Movie mockMovie = new Movie(1L, "Movie 1", MovieType.REGULAR);
+        Rental mockRental = new Rental(1L, 1L, 1L, MovieType.REGULAR, 1);
         when(customerRepository.getCustomerById(1L)).thenReturn(mockCustomer);
         when(movieRepository.getMovieById(1L)).thenReturn(mockMovie);
+        when(rentalRepository.addRental(any(Rental.class))).thenReturn(mockRental);
+
         // Act
-        rentalService.addRentalByCustomerIdAndMovieId(1L, 1L, 1L, 1);
+        Rental rental = rentalService.addRentalByCustomerIdAndMovieId(1L, 1L, 1);
         // Assert
-        verify(rentalRepository, times(1)).addRental(any(Rental.class));
+        assertEquals(1L, rental.getId());
+        assertEquals(1L, rental.getCustomerId());
+        assertEquals(1L, rental.getMovieId());
+        assertEquals(MovieType.REGULAR, rental.getRentalMovieType());
     }
 
     @Test
@@ -65,7 +71,7 @@ class RentalServiceTest {
         when(movieRepository.getMovieById(1L)).thenReturn(mockMovie);
         // Act and Assert
         RentalException rentalException = assertThrows(RentalException.class, () ->
-                rentalService.addRentalByCustomerIdAndMovieId(1L, 1L, 1L, 0));
+                rentalService.addRentalByCustomerIdAndMovieId(1L, 1L, 0));
         assertEquals("Days rented must be greater than 0", rentalException.getMessage());
     }
 
@@ -75,7 +81,7 @@ class RentalServiceTest {
         when(customerRepository.getCustomerById(1L)).thenReturn(null);
         // Act and Assert
         RentalException rentalException = assertThrows(RentalException.class, () ->
-                rentalService.addRentalByCustomerIdAndMovieId(1L, 1L, 1L, 1));
+                rentalService.addRentalByCustomerIdAndMovieId(1L, 1L, 1));
         assertEquals("Customer not found: ID 1", rentalException.getMessage());
     }
 
@@ -87,7 +93,7 @@ class RentalServiceTest {
         when(movieRepository.getMovieById(1L)).thenReturn(null);
         // Act and Assert
         RentalException rentalException = assertThrows(RentalException.class, () ->
-                rentalService.addRentalByCustomerIdAndMovieId(1L, 1L, 1L, 1));
+                rentalService.addRentalByCustomerIdAndMovieId(1L, 1L, 1));
         assertEquals("Movie not found: ID 1", rentalException.getMessage());
     }
 

@@ -7,6 +7,7 @@ import movies.customer.entity.Customer;
 import movies.customer.exception.CustomerException;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Chris Alan Apaza Aguilar
@@ -19,10 +20,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     private final List<Customer> customers;
     private final JsonRepositoryImpl<Customer> jsonRepository;
+    private final AtomicLong nextId;
 
     private CustomerRepositoryImpl(JsonRepositoryImpl<Customer> jsonRepository) {
         this.jsonRepository = jsonRepository;
         this.customers = jsonRepository.loadAll();
+        this.nextId = new AtomicLong(customers.stream().mapToLong(Customer::getId).max().orElse(0) + 1);
     }
 
     public static CustomerRepositoryImpl getInstance() {
@@ -49,9 +52,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public void addCustomer(Customer customer) {
+    public Customer addCustomer(Customer customer) {
+        customer.setId(nextId.getAndIncrement());
         customers.add(customer);
         jsonRepository.saveAll(customers);
+        return customer;
     }
 
     @Override

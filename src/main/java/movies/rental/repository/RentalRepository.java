@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface RentalRepository {
     List<Rental> getRentals();
-    void addRental(Rental rental);
+    Rental addRental(Rental rental);
     List<Rental> getRentalsByCustomerId(Long customerId);
 }

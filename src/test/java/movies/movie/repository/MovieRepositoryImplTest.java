@@ -55,12 +55,12 @@ class MovieRepositoryImplTest {
         // Arrange
         Movie movie = new Movie(2L, "Movie 2", MovieType.NEW_RELEASE);
         // Act
-        movieRepository.addMovie(movie);
+        Movie addedMovie = movieRepository.addMovie(movie);
         // Assert
         assertEquals(2, mockMovies.size());
-        assertEquals(2L, mockMovies.get(1).getId());
-        assertEquals("Movie 2", mockMovies.get(1).getTitle());
-        assertEquals(MovieType.NEW_RELEASE, mockMovies.get(1).getType());
+        assertEquals(2L, addedMovie.getId());
+        assertEquals("Movie 2", addedMovie.getTitle());
+        assertEquals(MovieType.NEW_RELEASE, addedMovie.getType());
     }
 
     @Test

@@ -54,11 +54,14 @@ class MovieServiceTest {
     @Test
     void addMovieShouldAddMovie() {
         // Arrange
-        doNothing().when(movieRepository).addMovie(any(Movie.class));
+        Movie movie = new Movie(2L, "Movie 2", MovieType.NEW_RELEASE);
+        when(movieRepository.addMovie(any(Movie.class))).thenReturn(movie);
         // Act
-        movieService.addMovie(2L, "Movie 2", MovieType.NEW_RELEASE);
+        Movie addedMovie = movieService.addMovie("Movie 2", MovieType.NEW_RELEASE);
         // Assert
-        verify(movieRepository, times(1)).addMovie(any(Movie.class));
+        assertEquals(2, addedMovie.getId());
+        assertEquals("Movie 2", addedMovie.getTitle());
+        assertEquals(MovieType.NEW_RELEASE, addedMovie.getType());
     }
 
     @Test

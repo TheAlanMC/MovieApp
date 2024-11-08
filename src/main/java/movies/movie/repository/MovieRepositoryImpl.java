@@ -7,6 +7,7 @@ import movies.movie.entity.Movie;
 import movies.movie.exception.MovieException;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Chris Alan Apaza Aguilar
@@ -19,10 +20,12 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     private final List<Movie> movies;
     private final JsonRepositoryImpl<Movie> jsonRepository;
+    private final AtomicLong nextId;
 
     private MovieRepositoryImpl(JsonRepositoryImpl<Movie> jsonRepository) {
         this.jsonRepository = jsonRepository;
         this.movies = jsonRepository.loadAll();
+        this.nextId = new AtomicLong(movies.stream().mapToLong(Movie::getId).max().orElse(0) + 1);
     }
 
     public static MovieRepositoryImpl getInstance() {
@@ -49,9 +52,11 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public void addMovie(Movie movie) {
+    public Movie addMovie(Movie movie) {
+        movie.setId(nextId.getAndIncrement());
         movies.add(movie);
         jsonRepository.saveAll(movies);
+        return movie;
     }
 
     @Override

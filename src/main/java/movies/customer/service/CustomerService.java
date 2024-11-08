@@ -49,10 +49,11 @@ public class CustomerService {
         return customerRepository.getCustomers();
     }
 
-    public void addCustomer(Long id, String name) {
+    public Customer addCustomer(String name) {
         log.info("Adding customer: name={}", name);
-        customerRepository.addCustomer(new Customer(id, name));
+        Customer customer = customerRepository.addCustomer(new Customer(null, name));
         log.info("Customer added successfully: name={}", name);
+        return customer;
     }
 
     public Customer getCustomerById(Long id) {

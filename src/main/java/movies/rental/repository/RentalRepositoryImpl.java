@@ -6,6 +6,7 @@ import movies.rental.entity.Rental;
 import movies.rental.strategy.RentalStrategyFactory;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 /**
@@ -18,11 +19,13 @@ public class RentalRepositoryImpl implements RentalRepository {
 
     private final List<Rental> rentals;
     private final JsonRepositoryImpl<Rental> jsonRepository;
+    private final AtomicLong nextId;
 
     private RentalRepositoryImpl(JsonRepositoryImpl<Rental> jsonRepository) {
         this.jsonRepository = jsonRepository;
         this.rentals = jsonRepository.loadAll();
         this.rentals.forEach(it -> it.setStrategy(RentalStrategyFactory.createRentalStrategy(it.getRentalMovieType())));
+        this.nextId = new AtomicLong(rentals.stream().mapToLong(Rental::getId).max().orElse(0) + 1);
     }
 
     public static RentalRepositoryImpl getInstance() {
@@ -49,9 +52,11 @@ public class RentalRepositoryImpl implements RentalRepository {
     }
 
     @Override
-    public void addRental(Rental rental) {
+    public Rental addRental(Rental rental) {
+        rental.setId(nextId.getAndIncrement());
         rentals.add(rental);
         jsonRepository.saveAll(rentals);
+        return rental;
     }
 
     @Override

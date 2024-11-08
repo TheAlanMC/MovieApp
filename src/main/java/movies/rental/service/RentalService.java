@@ -56,7 +56,7 @@ public class RentalService {
         instance = null;
     }
 
-    public void addRentalByCustomerIdAndMovieId(Long id, Long customerId, Long movieId, int daysRented) {
+    public Rental addRentalByCustomerIdAndMovieId(Long customerId, Long movieId, int daysRented) {
         if (daysRented <= 0) {
             log.error("Days rented must be greater than 0");
             throw new RentalException("Days rented must be greater than 0");
@@ -74,10 +74,12 @@ public class RentalService {
             throw new RentalException("Movie not found: ID " + movieId);
         }
 
-        Rental rental = new Rental(id, customer.getId(), movie.getId(), movie.getType(), daysRented);
-        rentalRepository.addRental(rental);
+        Rental rental = rentalRepository.addRental(
+                new Rental(null, customer.getId(), movie.getId(), movie.getType(), daysRented));
+
         log.info("Rental added successfully: rentalId={}, customerId={}, movieId={}, daysRented={}",
                 rental.getId(), rental.getCustomerId(), rental.getMovieId(), rental.getDaysRented());
+        return rental;
     }
 
     public List<Rental> getRentalsByCustomerId(Long customerId) {

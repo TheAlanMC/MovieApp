@@ -53,11 +53,11 @@ class CustomerRepositoryImplTest {
         // Arrange
         Customer customer = new Customer(2L, "Alan");
         // Act
-        customerRepository.addCustomer(customer);
+        Customer addedCustomer = customerRepository.addCustomer(customer);
         // Assert
         assertEquals(2, mockCustomers.size());
-        assertEquals(2L, mockCustomers.get(1).getId());
-        assertEquals("Alan", mockCustomers.get(1).getName());
+        assertEquals(2L, addedCustomer.getId());
+        assertEquals("Alan", addedCustomer.getName());
     }
 
     @Test

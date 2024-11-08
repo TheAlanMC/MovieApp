@@ -45,10 +45,11 @@ public class MovieService {
         instance = null;
     }
 
-    public void addMovie(Long id, String title, MovieType type) {
+    public Movie addMovie(String title, MovieType type) {
         log.info("Adding movie: title={}, type={}", title, type);
-        movieRepository.addMovie(new Movie(id, title, type));
+        Movie movie = movieRepository.addMovie(new Movie(null, title, type));
         log.info("Movie added successfully: title={}, type={}", title, type);
+        return movie;
     }
 
     public Movie getMovieById(Long id) {

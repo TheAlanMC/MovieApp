@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface MovieRepository {
     List<Movie> getMovies();
-    void addMovie(Movie movie);
+    Movie addMovie(Movie movie);
     Movie getMovieById(Long id);
 }
