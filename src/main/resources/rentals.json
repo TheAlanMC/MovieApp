@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "customer_id": 1,
+    "movie_id": 1,
+    "rental_movie_type": "NEW_RELEASE",
+    "days_rented": 5
+  },
+  {
+    "id": 2,
+    "customer_id": 1,
+    "movie_id": 2,
+    "rental_movie_type": "REGULAR",
+    "days_rented": 1
+  },
+  {
+    "id": 3,
+    "customer_id": 1,
+    "movie_id": 3,
+    "rental_movie_type": "CHILDREN",
+    "days_rented": 3
+  },
+  {
+    "id": 4,
+    "customer_id": 2,
+    "movie_id": 1,
+    "rental_movie_type": "NEW_RELEASE",
+    "days_rented": 5
+  },
+  {
+    "id": 5,
+    "customer_id": 2,
+    "movie_id": 2,
+    "rental_movie_type": "REGULAR",
+    "days_rented": 1
+  },
+  {
+    "id": 6,
+    "customer_id": 3,
+    "movie_id": 3,
+    "rental_movie_type": "CHILDREN",
+    "days_rented": 3
+  }
+]
